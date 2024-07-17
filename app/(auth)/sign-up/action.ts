@@ -9,15 +9,8 @@ import { lucia } from '@/lib/auth';
 import prisma from '@/lib/db';
 
 export const signup = async (formData: FormData) => {
-    const email = formData.get('email');
     const username = formData.get('username');
     const password = formData.get('password');
-
-    if (typeof email !== 'string' || !isValidEmail(email)) {
-        return {
-            error: 'Invalid email',
-        };
-    }
 
     if (
         typeof username !== 'string' ||
@@ -53,7 +46,6 @@ export const signup = async (formData: FormData) => {
         data: {
             id: userId,
             username,
-            email,
             password_hash: passwordHash,
         },
     });
@@ -67,7 +59,3 @@ export const signup = async (formData: FormData) => {
     );
     return redirect('/');
 };
-
-function isValidEmail(email: string): boolean {
-    return /.+@.+/.test(email);
-}
